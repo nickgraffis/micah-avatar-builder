@@ -17,7 +17,7 @@ export type MicahAvatar = {
     style: MicahFacialHairStyle
   },
   nose: {
-    color: MicahColor,
+    color: null,
     style: MicahNoseStyle
   },
   eyebrows: {
@@ -45,8 +45,8 @@ export type MicahAvatar = {
     style: MicahEarRingStyle
   },
   ears: {
-    color: MicahColor,
-    style: MicahEarsStyle
+    color: null,
+    style: MicahEarsStyle 
   },
   background: {
     color: MicahColor,
@@ -73,6 +73,7 @@ export type MicahColor = 'Apricot' | 'Coast' | 'Topaz' | 'Lavendar' | 'Sky' | 'S
 
 export type CreateAvatarInputOptions<T> = {
   avatar?: T,
+  seed?: string,
   size?: number | string
 }
 
@@ -101,6 +102,6 @@ export type AvatarPreBuild = {
 
 export type AvatarBuilder<C> = {
   meta: MetaData,
-  create: (options: CreateAvatarInputOptions<C>) => AvatarPreBuild,
+  create: (options: CreateAvatarInputOptions<C> | string) => AvatarPreBuild,
   options: CreateAvatarInputOptions<C>
 }

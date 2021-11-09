@@ -1,5 +1,5 @@
 import React from "react";
-import { colorMap } from "../../Colors/color-map";
+import { colorMap } from "../../../lib/color-map";
 import { selectableStyleProps } from "../../Components/selectableStyleProps";
 import useAvatarContext from "../../Hooks/useAvatar";
 import { Color } from "../../types";

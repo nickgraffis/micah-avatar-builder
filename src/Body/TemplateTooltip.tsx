@@ -1,6 +1,6 @@
 import Tippy from "@tippyjs/react/headless";
 import React, { useState } from "react";
-import { colorMap } from "../Colors/color-map";
+import { colorMap } from "../../lib/color-map";
 import useAvatarContext from "../Hooks/useAvatar";
 import { Avatar, Color } from "../types";
 

@@ -1,7 +1,7 @@
 import React from "react"
 import { ShirtTooltip } from "./ShirtTooltip";
 import { ColorsTooltip } from "../../Colors/ColorsTooltip";
-import { colorMap } from "../../Colors/color-map";
+import { colorMap } from "../../../lib/color-map";
 import useAvatarContext from "../../Hooks/useAvatar";
 import { AvatarContextType, Color } from "../../types";
 import { pathMap } from "../path-map";

@@ -19,6 +19,7 @@ export const App: FC<Props> = () => {
   return (
     <AvatarProvider>
       <div className="max-w-2xl mx-auto flex flex-col items-center justify-center h-screen">
+        <img src="http://localhost:3000/api/hello-world" />
         <div onClick={(event) => console.log(event.target)} dangerouslySetInnerHTML={{ __html: test }} />
       </div>
     </AvatarProvider>

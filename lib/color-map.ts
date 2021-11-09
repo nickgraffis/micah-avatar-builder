@@ -1,6 +1,6 @@
-import { Color } from "../types";
+import { MicahColor } from "./types";
 
-export const colorMap: { [key in Color]: string } = {
+export const colorMap: { [key in MicahColor]: string } = {
   'Apricot': '#F9C9B6',
   'Coast': '#AC6651',
   'Topaz': '#77311D',
