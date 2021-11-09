@@ -1,4 +1,4 @@
-import * as components from '.'
+import { components } from '.'
 import { colorMap } from '../color-map'
 import { MicahAvatar } from '../types'
 
