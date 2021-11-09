@@ -1,4 +1,4 @@
-import { colorMap } from "../../src/Colors/color-map";
+import { colorMap } from "../color-map";
 import { MicahAvatar } from "../types";
 
 export const glasses: {

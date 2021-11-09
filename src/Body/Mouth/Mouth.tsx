@@ -1,6 +1,6 @@
 import React from "react"
 import { MouthTooltip } from "./MouthTooltip";
-import { colorMap } from "../../Colors/color-map";
+import { colorMap } from "../../../lib/color-map";
 import useAvatarContext from "../../Hooks/useAvatar";
 import { Color } from "../../types";
 

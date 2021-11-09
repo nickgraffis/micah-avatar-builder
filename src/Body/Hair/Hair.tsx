@@ -1,6 +1,6 @@
 import React from "react"
 import { HairTooltip } from "./HairTooltip";
-import { colorMap } from "../../Colors/color-map";
+import { colorMap } from "../../../lib/color-map";
 import useAvatarContext from "../../Hooks/useAvatar";
 import { Color } from "../../types";
 

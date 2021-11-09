@@ -1,4 +1,4 @@
-import { colorMap } from "../../src/Colors/color-map";
+import { colorMap } from "../color-map";
 import { MetaData, AvatarPreBuild, MicahColor } from "../types";
 
 type CreateGroupProps = {

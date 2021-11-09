@@ -14,7 +14,7 @@ import { newAvatar } from '../lib'
 type Props = { } 
 
 export const App: FC<Props> = () => {
-  let test = newAvatar({ size: 400 })
+  let test = newAvatar({ size: 300})
   
   return (
     <AvatarProvider>
