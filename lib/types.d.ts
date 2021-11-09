@@ -74,7 +74,10 @@ export type MicahColor = 'Apricot' | 'Coast' | 'Topaz' | 'Lavendar' | 'Sky' | 'S
 export type CreateAvatarInputOptions<T> = {
   avatar?: T,
   seed?: string,
-  size?: number | string
+  size?: number | string,
+  facialHairProbability?: number,
+  glassesProbability?: number,
+  earringsProbability?: number,
 }
 
 export type MetaData = {
@@ -103,5 +106,6 @@ export type AvatarPreBuild = {
 export type AvatarBuilder<C> = {
   meta: MetaData,
   create: (options: CreateAvatarInputOptions<C> | string) => AvatarPreBuild,
+  pickStyle<T extends string | null>(hash: number, type: keyof MicahAvatar): T,
   options: CreateAvatarInputOptions<C>
 }

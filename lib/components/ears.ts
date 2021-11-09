@@ -11,7 +11,7 @@ export const ears: {
   <path data-avatar-attribute="micah-ears" d="M27.5 13.5c-4-1.833-12.8-2.8-16 8" stroke="#000" stroke-width="4"/>
   <path data-avatar-attribute="micah-ears" d="M17 14c2.167 1.833 6.3 7.5 5.5 15.5" stroke="#000" stroke-width="4"/>
   <g data-avatar-attribute="micah-earrings" transform="translate(3 35)">
-    ${allComponents.earrings.style ? components['earrings'][allComponents.earrings.style] : ''}
+    ${allComponents.earrings.style ? components['earrings'][allComponents.earrings.style](allComponents) : ''}
   </g>
 `,
   'detached': (allComponents: MicahAvatar) => `
@@ -20,7 +20,7 @@ export const ears: {
   <path data-avatar-attribute="micah-ears" d="M27.5 13.5c-4-1.833-12.8-2.8-16 8" stroke="#000" stroke-width="4"/>
   <path data-avatar-attribute="micah-ears" d="M17 14c2.167 1.833 6.3 7.5 5.5 15.5" stroke="#000" stroke-width="4"/>
   <g data-avatar-attribute="micah-earrings" transform="translate(3 42)">
-    ${allComponents.earrings.style ? components['earrings'][allComponents.earrings.style] : ''}
+    ${allComponents.earrings.style ? components['earrings'][allComponents.earrings.style](allComponents) : ''}
   </g>
 `,
 }

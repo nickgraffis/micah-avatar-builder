@@ -19,14 +19,7 @@ const pickColor = (hash: number, item: string, acceptableColors?: MicahColor[]):
   return colors[itemHash % colors.length]
 }
 
-const handleEdgeCase = (): null[] => [null]
-
-function pickStyle<T extends string | null>(hash: number, type: keyof MicahAvatar) {
-  const styles = type !== 'collar' && 
-    type !== 'eyeshadow' &&
-    type !== 'background' ? Object.keys(components[type]) : handleEdgeCase()
-  return styles[hash % styles.length] as T
-}
+const handleEdgeCase = (): string[] => ['']
 
 const avatar: AvatarBuilder<MicahAvatar> = {
   options: {},
@@ -41,14 +34,15 @@ const avatar: AvatarBuilder<MicahAvatar> = {
   },
   create(input) {
     const hash = generatehash(typeof input === 'string' ? input : input?.seed || undefined)
-    
+    this.options = typeof input === 'string' ? {} : input
+
     this.options = {
-      size: 320,
+      size: typeof input !== 'string' && input.size || 700,
       avatar: {
         shirt: { 
           style: 
             typeof input !== 'string' && input.avatar?.shirt.style || 
-            pickStyle<MicahShirtStyle>(hash, 'shirt'), 
+            this.pickStyle<MicahShirtStyle>(hash, 'shirt'), 
           color: 
             typeof input !== 'string' && input.avatar?.shirt.color || 
             pickColor(hash, 'shirt') 
@@ -62,7 +56,7 @@ const avatar: AvatarBuilder<MicahAvatar> = {
         glasses: { 
           style: 
             typeof input !== 'string' && input.avatar?.glasses.style || 
-            pickStyle<MicahGlassesStyle>(hash, 'glasses'), 
+            this.pickStyle<MicahGlassesStyle>(hash, 'glasses'), 
           color: 
             typeof input !== 'string' && input.avatar?.glasses.color || 
             pickColor(hash, 'glasses', ['Calm', 'White', 'Canary', 'Black', 'Mellow'])
@@ -70,13 +64,13 @@ const avatar: AvatarBuilder<MicahAvatar> = {
         nose: { 
           style: 
             typeof input !== 'string' && input.avatar?.nose.style || 
-            pickStyle<MicahNoseStyle>(hash, 'nose'),
+            this.pickStyle<MicahNoseStyle>(hash, 'nose'),
           color: null
         },
         eyebrows: { 
           style: 
             typeof input !== 'string' && input.avatar?.eyebrows.style || 
-            pickStyle<MicahEyebrowsStyle>(hash, 'eyebrows'), 
+            this.pickStyle<MicahEyebrowsStyle>(hash, 'eyebrows'), 
           color: 
             typeof input !== 'string' && 
             input.avatar?.eyebrows.color || 'Black'
@@ -84,33 +78,46 @@ const avatar: AvatarBuilder<MicahAvatar> = {
         eyes: { 
           style: 
             typeof input !== 'string' && input.avatar?.eyes.style || 
-            pickStyle<MicahEyesStyle>(hash, 'eyes'),
+            this.pickStyle<MicahEyesStyle>(hash, 'eyes'),
           color: 'Black' 
         },
         eyeshadow: { 
           style: null, 
           color: 
             typeof input !== 'string' && input.avatar?.eyeshadow.color || 
-            pickColor(hash, 'eyeshadow')
+            pickColor(
+              hash, 
+              'eyeshadow', 
+              ['Apricot', 'Azure', 'Calm', 'Canary', 'Coast', 'Lavendar', 'Mellow', 'Salmon', 'Seashell', 'Sky']
+            )
         },
         hair: { 
           style: 
             typeof input !== 'string' && input.avatar?.hair.style || 
-            pickStyle<MicahHairStyle>(hash, 'hair'),
+            this.pickStyle<MicahHairStyle>(hash, 'hair'),
           color: 
             typeof input !== 'string' && input.avatar?.hair.color || 
-            pickColor(hash, 'hair')
+            pickColor(
+              hash, 
+              'hair', 
+              (Object.keys(colorMap) as MicahColor[])
+                .filter(color => color !== pickColor(hash, 'background', [
+                  'Apricot', 'Calm', 'Canary', 
+                  'Lavendar', 'Sky', 'Salmon', 
+                  'Seashell', 'Azure', 'Mellow'
+                ]))
+            )
         },
         mouth: { 
           style: 
             typeof input !== 'string' && input.avatar?.mouth.style || 
-            pickStyle<MicahMouthStyle>(hash, 'mouth'),
+            this.pickStyle<MicahMouthStyle>(hash, 'mouth'),
           color: 'Black' 
         },
         ears: { 
           style: 
             typeof input !== 'string' && input.avatar?.ears.style || 
-            pickStyle<MicahEarsStyle>(hash, 'ears'),
+            this.pickStyle<MicahEarsStyle>(hash, 'ears'),
           color: null
         },
         background: { 
@@ -130,12 +137,42 @@ const avatar: AvatarBuilder<MicahAvatar> = {
           style: 'standard' 
         },
         earrings: { 
-          color: typeof input !== 'string' && input.avatar?.earrings.color || pickColor(hash, 'earrings'), 
-          style: typeof input !== 'string' && input.avatar?.earrings.style || pickStyle<MicahEarRingStyle>(hash, 'earrings') 
+          color: 
+            typeof input !== 'string' && input.avatar?.earrings.color || 
+            pickColor(
+              hash, 
+              'earrings', 
+              ((Object.keys(colorMap) as MicahColor[]) as MicahColor[])
+                .filter(color => color !== pickColor(
+                  hash, 
+                  'background', [
+                    'Apricot', 'Calm', 'Canary', 
+                    'Lavendar', 'Sky', 'Salmon', 
+                    'Seashell', 'Azure', 'Mellow'
+                  ])
+              )
+            ), 
+          style: 
+            typeof input !== 'string' && input.avatar?.earrings.style || 
+            this.pickStyle<MicahEarRingStyle>(hash, 'earrings') 
         },
         facialHair: { 
-          color: typeof input !== 'string' && input.avatar?.facialHair.color || pickColor(hash, 'facialHair'), 
-          style: typeof input !== 'string' && input.avatar?.facialHair.style || pickStyle<MicahFacialHairStyle>(hash, 'facialHair')  
+          color: 
+            typeof input !== 'string' && input.avatar?.facialHair.color || 
+            pickColor(
+              hash, 
+              'hair', 
+              (['Topaz', 'Apricot', 'Coast'] as MicahColor[])
+                .filter(color => color !== pickColor(
+                  hash, 
+                  'base', 
+                  ['Topaz', 'Apricot', 'Coast']
+                )
+              )
+            ),
+          style: 
+            typeof input !== 'string' && input.avatar?.facialHair.style || 
+            this.pickStyle<MicahFacialHairStyle>(hash, 'facialHair')  
         },
       },
       ...(typeof input !== 'string') && { input }
@@ -149,32 +186,65 @@ const avatar: AvatarBuilder<MicahAvatar> = {
         fill: 'none',
       },
       body: `
-        <g transform="translate(80 23)" data-avatar-attribute="micah-base">
-          ${this.options.avatar ? components['base'][this.options.avatar.base.style](this.options.avatar) : ''}
-        </g>
-        <g transform="translate(170 183)" data-avatar-attribute="micah-mouth">
-          ${this.options.avatar ? components['mouth'][this.options.avatar.mouth.style](this.options.avatar) : ''}
-        </g>
-        <g transform="translate(110 102)" data-avatar-attribute="micah-eyebrows">
-          ${this.options.avatar ? components['eyebrows'][this.options.avatar.eyebrows.style](this.options.avatar) : ''}
-        </g>
-        <g transform="translate(49 11)" data-avatar-attribute="micah-hair">
-          ${this.options.avatar ? components['hair'][this.options.avatar.hair.style](this.options.avatar) : ''}
-        </g>
-        <g transform="translate(142 119)" data-avatar-attribute="micah-eyes">
-          ${this.options.avatar ? components['eyes'][this.options.avatar.eyes.style](this.options.avatar) : ''}
-        </g>
-        <g transform="rotate(-8 1149.438 -1186.916)" data-avatar-attribute="micah-nose">
-          ${this.options.avatar ? components['nose'][this.options.avatar.nose.style](this.options.avatar) : ''}
-        </g>
-        <g transform="translate(84 154)" data-avatar-attribute="micah-ears">
-          ${this.options.avatar ? components['ears'][this.options.avatar.ears.style](this.options.avatar) : ''}
-        </g>
-        <g transform="translate(53 272)" data-avatar-attribute="micah-shirt">
-          ${this.options.avatar ? components['shirt'][this.options.avatar.shirt.style](this.options.avatar) : ''}
+        <g transform="translate(25 36) scale(.9)">
+          <g transform="translate(80 23)" data-avatar-attribute="micah-base">
+            ${this.options.avatar ? components['base'][this.options.avatar.base.style](this.options.avatar) : ''}
+          </g>
+          <g transform="translate(170 183)" data-avatar-attribute="micah-mouth">
+            ${this.options.avatar ? components['mouth'][this.options.avatar.mouth.style](this.options.avatar) : ''}
+          </g>
+          <g transform="translate(110 102)" data-avatar-attribute="micah-eyebrows">
+            ${this.options.avatar ? components['eyebrows'][this.options.avatar.eyebrows.style](this.options.avatar) : ''}
+          </g>
+          <g transform="translate(49 11)" data-avatar-attribute="micah-hair">
+            ${this.options.avatar ? components['hair'][this.options.avatar.hair.style](this.options.avatar) : ''}
+          </g>
+          <g transform="translate(142 119)" data-avatar-attribute="micah-eyes">
+            ${this.options.avatar ? components['eyes'][this.options.avatar.eyes.style](this.options.avatar) : ''}
+          </g>
+          <g transform="rotate(-8 1149.438 -1186.916)" data-avatar-attribute="micah-nose">
+            ${this.options.avatar ? components['nose'][this.options.avatar.nose.style](this.options.avatar) : ''}
+          </g>
+          <g transform="translate(84 154)" data-avatar-attribute="micah-ears">
+            ${this.options.avatar ? components['ears'][this.options.avatar.ears.style](this.options.avatar) : ''}
+          </g>
+          <g transform="translate(53 272)" data-avatar-attribute="micah-shirt">
+            ${this.options.avatar ? components['shirt'][this.options.avatar.shirt.style](this.options.avatar) : ''}
+          </g>
         </g>
       `,
     };
+  },
+  pickStyle<T extends string | null>(hash: number, type: keyof MicahAvatar) {
+    const styles = type !== 'collar' && 
+    type !== 'eyeshadow' &&
+    type !== 'background' ? Object.keys(components[type]) : handleEdgeCase()
+    if (type === 'facialHair' || type === 'glasses' || type === 'earrings') {
+      const possibleStyles = styles
+      const probability = this.options[
+        type === 'facialHair' ? 
+          'facialHairProbability' : 
+          type === 'glasses' ? 
+            'glassesProbability': 
+            'earringsProbability'] || 
+        type === 'facialHair' ? 
+          .1 :
+          type === 'glasses' ?
+            .4 : .2 
+
+      for (let i = 0; i < probability * 100; i++) {
+        if (i % 2 === 0) {
+          styles.push(possibleStyles[1])
+        } else {
+          styles.push(possibleStyles[0])
+        }
+      }
+      for (let i = 0; i < (1 - probability) * 100; i++) {
+        styles.push('')
+      }
+      console.log(styles)
+    }
+    return styles[hash % styles.length] as T
   }
 }
 
