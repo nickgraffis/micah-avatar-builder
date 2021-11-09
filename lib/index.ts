@@ -242,7 +242,6 @@ const avatar: AvatarBuilder<MicahAvatar> = {
       for (let i = 0; i < (1 - probability) * 100; i++) {
         styles.push('')
       }
-      console.log(styles)
     }
     return styles[hash % styles.length] as T
   }

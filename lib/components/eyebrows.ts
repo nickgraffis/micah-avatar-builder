@@ -15,7 +15,7 @@ export const eyebrows: {
   </g>
 `,
   'eyelashesUp': (allComponents: MicahAvatar) => `
-  <g data-avatar-attribute="micah-eyebrows"stroke="${colorMap[allComponents.eyebrows.color]}" stroke-width="4" stroke-linecap="round">
+  <g data-avatar-attribute="micah-eyebrows" stroke="${colorMap[allComponents.eyebrows.color]}" stroke-width="4" stroke-linecap="round">
     <path data-avatar-attribute="micah-eyebrows" d="M99 10.214c5.667-2.666 19-5.1 27 6.5M23.58 35.521c2.07-5.91 9.681-17.125 23.562-14.699M26.074 29.458l-6.148-5.427M122.961 11.157l6.148-5.427M32.523 23.814l-4.046-7.132M115.512 7.513l4.047-7.132M40.6 20.2l-2.202-7.9M106.436 6.9l2.201-7.9"/>
   </g>
 `,

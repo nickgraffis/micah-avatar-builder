@@ -18,13 +18,13 @@ export function createAvatar(
     );
 
   prebuild.body = utils.svg.addViewboxMask(prebuild);
-  let avatar = utils.svg.removeWhitespace(`
-    <svg ${utils.svg.createAttrString(prebuild.attributes)}>
-      ${utils.svg.getMetadata(additionalAttributes.meta)}
-      ${prebuild.attributes.head ?? ''}
-      ${prebuild.body}
-    </svg>
-  `);
+  let avatar = `
+  <svg ${utils.svg.createAttrString(prebuild.attributes)}>
+    ${utils.svg.getMetadata(additionalAttributes.meta)}
+    ${prebuild.attributes.head ?? ''}
+    ${prebuild.body}
+  </svg>
+`;
 
   return avatar;
 }
