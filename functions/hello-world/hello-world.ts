@@ -1,15 +1,13 @@
 // Docs on event and context https://www.netlify.com/docs/functions/#the-handler-method
 import { Handler } from '@netlify/functions';
-import sharp from 'sharp';
 import { newAvatar } from '../../lib';
-import { CreateAvatarInputOptions, MicahAvatar } from '../../lib/types';
-import * as components from '../../lib/components';
 import { colorMap } from '../../lib/color-map';
 
 const isEmpty = (object:any) => { for (var _ in object) { return false; } return true; }
 
 const handler: Handler = async (event) => {
   const params = event.queryStringParameters;
+  // Check for valid colors
   const colorParams = params && Object.keys(params).filter(key => key.includes('Color'))
   if (colorParams) {
     for (let i = 0; i < colorParams.length; i++) {
@@ -37,10 +35,44 @@ const handler: Handler = async (event) => {
         color: params?.collarColor,
       }
     },
-    ...(params?.shirt || params?.shirtColor) && {
-      shirt: {
-        ...(params?.shirt) && { style: params?.shirt },
-        ...(params?.shirtColor) && { color: params?.shirtColor },
+    ...(params?.glasses || params?.glassesColor) && {
+      glasses: {
+        ...(params?.glasses) && { style: params?.glasses },
+        ...(params?.glassesColor) && { color: params?.glassesColor },
+      }
+    },
+    ...(params?.facialHair || params?.facialHairColor) && {
+      facialHair: {
+        ...(params?.facialHair) && { style: params?.facialHair },
+        ...(params?.facialHairColor) && { color: params?.facialHairColor },
+      }
+    },
+    ...(params?.nose || params?.nose) && {
+      nose: {
+          style: params?.nose
+      }
+    },
+    ...(params?.base) && {
+      base: {
+        color: params?.base
+      }
+    },
+    ...(params?.eyebrows || params?.eyebrowsColor) && {
+      eyebrows: {
+        ...(params?.eyebrows) && { style: params?.eyebrows },
+        ...(params?.eyebrowsColor) && { color: params?.eyebrowsColor },
+      }
+    },
+    ...(params?.eyes || params?.eyesColor) && {
+      eyes: {
+        ...(params?.eyes) && { style: params?.eyes },
+        ...(params?.eyesColor) && { color: params?.eyesColor },
+      }
+    },
+    ...(params?.hair || params?.hairColor) && {
+      hair: {
+        ...(params?.hair) && { style: params?.hair },
+        ...(params?.hairColor) && { color: params?.hairColor },
       }
     },
   }

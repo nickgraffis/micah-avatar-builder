@@ -260,3 +260,24 @@ export const newAvatar =
       avatar.create(options), 
       { meta: avatar.meta, options: avatar.options }
     );
+
+
+// Give a list of svgs sections with the g function or a path function
+const g = (body: callback, attributes: any /* SVG Attributes */, children: any /** g func */) => {
+  const context = createContext()
+  return `<g ${utils.svg.groupAttributes(attributes)}>
+    ${body(context)}
+  </g>`
+}
+const path = (body: callback, attributes: any /* SVG Attributes */, children: any /** g func */) => {
+  return `<path ${utils.svg.pathAttributes(attributes)}>
+    ${body}
+  </path>`
+}
+// list of attributes are like so
+// { base: g(body, attributes) }
+// you can also nest
+// { eyes: g(body, attribues, { eyeshadow: g(body, attributes) } ) }
+// An example of the body function would be:
+const base = (context) => `body and ${context}`
+//you need to give an object of context and options
