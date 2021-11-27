@@ -1,5 +1,5 @@
 import { createAvatar } from './core'
-import * as components from './components';
+import { components } from './components'
 import { AvatarBuilder, CreateAvatarInputOptions, MicahAvatar, MicahColor, MicahEarRingStyle, MicahEarsStyle, MicahEyebrowsStyle, MicahEyesStyle, MicahFacialHairStyle, MicahGlassesStyle, MicahHairStyle, MicahMouthStyle, MicahNoseStyle, MicahShirtStyle } from './types';
 import { colorMap } from './color-map';
 
@@ -32,59 +32,63 @@ const avatar: AvatarBuilder<MicahAvatar> = {
       url: 'https://creativecommons.org/licenses/by/4.0/',
     },
   },
+  seed: '',
+  input: {},
   create(input) {
-    const hash = generatehash(typeof input === 'string' ? input : input?.seed || undefined)
+    this.input = input
+    this.seed = typeof input === 'string' ? input : input?.seed ? input.seed : ''
+    const hash = generatehash(this.seed || undefined)
     this.options = typeof input === 'string' ? {} : input
-
+    typeof input !== 'string' && console.log(input?.avatar?.shirt?.style)
     this.options = {
       size: typeof input !== 'string' && input.size || 700,
       avatar: {
         shirt: { 
           style: 
-            typeof input !== 'string' && input.avatar?.shirt.style || 
+            typeof input !== 'string' && input?.avatar?.shirt?.style || 
             this.pickStyle<MicahShirtStyle>(hash, 'shirt'), 
           color: 
-            typeof input !== 'string' && input.avatar?.shirt.color || 
+            typeof input !== 'string' && input?.avatar?.shirt?.color || 
             pickColor(hash, 'shirt') 
         },
         collar: { 
           color: 
-            typeof input !== 'string' && input.avatar?.collar.color || 
+            typeof input !== 'string' && input?.avatar?.collar?.color || 
             pickColor(hash, 'collar'), 
           style: null
         },
         glasses: { 
           style: 
-            typeof input !== 'string' && input.avatar?.glasses.style || 
+            typeof input !== 'string' && input?.avatar?.glasses?.style || 
             this.pickStyle<MicahGlassesStyle>(hash, 'glasses'), 
           color: 
-            typeof input !== 'string' && input.avatar?.glasses.color || 
+            typeof input !== 'string' && input?.avatar?.glasses?.color || 
             pickColor(hash, 'glasses', ['Calm', 'White', 'Canary', 'Black', 'Mellow'])
         },
         nose: { 
           style: 
-            typeof input !== 'string' && input.avatar?.nose.style || 
+            typeof input !== 'string' && input?.avatar?.nose?.style || 
             this.pickStyle<MicahNoseStyle>(hash, 'nose'),
           color: null
         },
         eyebrows: { 
           style: 
-            typeof input !== 'string' && input.avatar?.eyebrows.style || 
+            typeof input !== 'string' && input?.avatar?.eyebrows?.style || 
             this.pickStyle<MicahEyebrowsStyle>(hash, 'eyebrows'), 
           color: 
             typeof input !== 'string' && 
-            input.avatar?.eyebrows.color || 'Black'
+            input?.avatar?.eyebrows?.color || 'Black'
         },
         eyes: { 
           style: 
-            typeof input !== 'string' && input.avatar?.eyes.style || 
+            typeof input !== 'string' && input?.avatar?.eyes?.style || 
             this.pickStyle<MicahEyesStyle>(hash, 'eyes'),
           color: 'Black' 
         },
         eyeshadow: { 
           style: null, 
           color: 
-            typeof input !== 'string' && input.avatar?.eyeshadow.color || 
+            typeof input !== 'string' && input?.avatar?.eyeshadow?.color || 
             pickColor(
               hash, 
               'eyeshadow', 
@@ -93,10 +97,10 @@ const avatar: AvatarBuilder<MicahAvatar> = {
         },
         hair: { 
           style: 
-            typeof input !== 'string' && input.avatar?.hair.style || 
+            typeof input !== 'string' && input?.avatar?.hair?.style || 
             this.pickStyle<MicahHairStyle>(hash, 'hair'),
           color: 
-            typeof input !== 'string' && input.avatar?.hair.color || 
+            typeof input !== 'string' && input?.avatar?.hair?.color || 
             pickColor(
               hash, 
               'hair', 
@@ -110,19 +114,19 @@ const avatar: AvatarBuilder<MicahAvatar> = {
         },
         mouth: { 
           style: 
-            typeof input !== 'string' && input.avatar?.mouth.style || 
+            typeof input !== 'string' && input?.avatar?.mouth?.style || 
             this.pickStyle<MicahMouthStyle>(hash, 'mouth'),
           color: 'Black' 
         },
         ears: { 
           style: 
-            typeof input !== 'string' && input.avatar?.ears.style || 
+            typeof input !== 'string' && input?.avatar?.ears?.style || 
             this.pickStyle<MicahEarsStyle>(hash, 'ears'),
           color: null
         },
         background: { 
           color: 
-            typeof input !== 'string' && input.avatar?.background.color || 
+            typeof input !== 'string' && input?.avatar?.background?.color || 
             pickColor(hash, 'background', [
               'Apricot', 'Calm', 'Canary', 
               'Lavendar', 'Sky', 'Salmon', 
@@ -132,13 +136,13 @@ const avatar: AvatarBuilder<MicahAvatar> = {
         },
         base: { 
           color: 
-            typeof input !== 'string' && input.avatar?.base.color || 
+            typeof input !== 'string' && input?.avatar?.base?.color || 
             pickColor(hash, 'base', ['Topaz', 'Apricot', 'Coast']), 
           style: 'standard' 
         },
         earrings: { 
           color: 
-            typeof input !== 'string' && input.avatar?.earrings.color || 
+            typeof input !== 'string' && input?.avatar?.earrings?.color || 
             pickColor(
               hash, 
               'earrings', 
@@ -153,12 +157,12 @@ const avatar: AvatarBuilder<MicahAvatar> = {
               )
             ), 
           style: 
-            typeof input !== 'string' && input.avatar?.earrings.style || 
+            typeof input !== 'string' && input?.avatar?.earrings?.style || 
             this.pickStyle<MicahEarRingStyle>(hash, 'earrings') 
         },
         facialHair: { 
           color: 
-            typeof input !== 'string' && input.avatar?.facialHair.color || 
+            typeof input !== 'string' && input?.avatar?.facialHair?.color || 
             pickColor(
               hash, 
               'hair', 
@@ -171,14 +175,12 @@ const avatar: AvatarBuilder<MicahAvatar> = {
               )
             ),
           style: 
-            typeof input !== 'string' && input.avatar?.facialHair.style || 
+            typeof input !== 'string' && input?.avatar?.facialHair?.style || 
             this.pickStyle<MicahFacialHairStyle>(hash, 'facialHair')  
         },
       },
       ...(typeof input !== 'string') && { input }
     }
-
-    console.log(this.options)
 
     return {
       attributes: {
@@ -215,6 +217,11 @@ const avatar: AvatarBuilder<MicahAvatar> = {
       `,
     };
   },
+  // hasValidInput<T extends string>(key: keyof CreateAvatarInputOptions<MicahAvatar> | `avatar.${T}.`) {
+  //   if (typeof this.input === 'string') return false
+  //   if (!this.input[key]) return false
+    
+  // },
   pickStyle<T extends string | null>(hash: number, type: keyof MicahAvatar) {
     const styles = type !== 'collar' && 
     type !== 'eyeshadow' &&
@@ -253,3 +260,24 @@ export const newAvatar =
       avatar.create(options), 
       { meta: avatar.meta, options: avatar.options }
     );
+
+
+// Give a list of svgs sections with the g function or a path function
+const g = (body: callback, attributes: any /* SVG Attributes */, children: any /** g func */) => {
+  const context = createContext()
+  return `<g ${utils.svg.groupAttributes(attributes)}>
+    ${body(context)}
+  </g>`
+}
+const path = (body: callback, attributes: any /* SVG Attributes */, children: any /** g func */) => {
+  return `<path ${utils.svg.pathAttributes(attributes)}>
+    ${body}
+  </path>`
+}
+// list of attributes are like so
+// { base: g(body, attributes) }
+// you can also nest
+// { eyes: g(body, attribues, { eyeshadow: g(body, attributes) } ) }
+// An example of the body function would be:
+const base = (context) => `body and ${context}`
+//you need to give an object of context and options

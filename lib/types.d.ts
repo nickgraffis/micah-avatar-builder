@@ -107,5 +107,7 @@ export type AvatarBuilder<C> = {
   meta: MetaData,
   create: (options: CreateAvatarInputOptions<C> | string) => AvatarPreBuild,
   pickStyle<T extends string | null>(hash: number, type: keyof MicahAvatar): T,
-  options: CreateAvatarInputOptions<C>
+  options: CreateAvatarInputOptions<C>,
+  seed: string,
+  input: CreateAvatarInputOptions<C> | string
 }
