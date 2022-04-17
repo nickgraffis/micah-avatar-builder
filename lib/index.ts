@@ -42,6 +42,7 @@ const avatar: AvatarBuilder<MicahAvatar> = {
     typeof input !== 'string' && console.log(input?.avatar?.shirt?.style)
     this.options = {
       size: typeof input !== 'string' && input.size || 700,
+      shape: typeof input !== 'string' && input.shape || 'circle',
       avatar: {
         shirt: { 
           style: 
@@ -182,6 +183,7 @@ const avatar: AvatarBuilder<MicahAvatar> = {
       ...(typeof input !== 'string') && { input }
     }
 
+
     return {
       attributes: {
         viewBox: '0 0 360 360',
@@ -255,12 +257,14 @@ const avatar: AvatarBuilder<MicahAvatar> = {
 }
 
 export const newAvatar = 
-  (options: CreateAvatarInputOptions<MicahAvatar>): string => 
-    createAvatar(
+  (options: CreateAvatarInputOptions<MicahAvatar>): string => {
+    const a = avatar.create(options)
+    console.log('options', avatar.options)
+    return createAvatar(
       avatar.create(options), 
       { meta: avatar.meta, options: avatar.options }
     );
-
+  }
 
 // Give a list of svgs sections with the g function or a path function
 const g = (body: callback, attributes: any /* SVG Attributes */, children: any /** g func */) => {

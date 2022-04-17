@@ -1,5 +1,5 @@
 import { colorMap } from "../color-map";
-import { MetaData, AvatarPreBuild, MicahColor } from "../types";
+import { MetaData, AvatarPreBuild, MicahColor, CreateAvatarInputOptions, MicahAvatar } from "../types";
 
 type CreateGroupProps = {
   children: string;
@@ -191,12 +191,13 @@ export function addBackgroundColor(avatar: AvatarPreBuild, color: MicahColor) {
   `;
 }
 
-export function addViewboxMask(avatar: AvatarPreBuild) {
+export function addViewboxMask(avatar: AvatarPreBuild, options: CreateAvatarInputOptions<MicahAvatar>) {
   let { width, height } = getViewBox(avatar);
-
+  let shape = options?.shape || 'circle';
   return `
     <mask id="avatarsRadiusMask" width="${width * 2}" height="${height * 2}">
-      <circle cx="${width / 2}" cy="${width / 2}" r="${width / 2}" fill="#fff" />
+      ${shape === 'circle' && `<circle cx="${width / 2}" cy="${width / 2}" r="${width / 2}" fill="#fff" />`}
+      ${shape === 'square' && `<rect x="0" width="${width}" height="${height}" rx="15" fill="#fff" />`}
     </mask>
     <g mask="url(#avatarsRadiusMask)">
       ${avatar.body}

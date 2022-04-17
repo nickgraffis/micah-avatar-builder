@@ -16,8 +16,7 @@ export function createAvatar(
       prebuild, 
       additionalAttributes?.options?.avatar?.background.color as MicahColor
     );
-
-  prebuild.body = utils.svg.addViewboxMask(prebuild);
+  prebuild.body = utils.svg.addViewboxMask(prebuild, additionalAttributes.options);
   let avatar = utils.svg.removeWhitespace(`
     <svg ${utils.svg.createAttrString(prebuild.attributes)}>
       ${utils.svg.getMetadata(additionalAttributes.meta)}

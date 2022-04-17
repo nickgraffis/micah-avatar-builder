@@ -78,6 +78,7 @@ export type CreateAvatarInputOptions<T> = {
   facialHairProbability?: number,
   glassesProbability?: number,
   earringsProbability?: number,
+  shape?: 'circle' | 'square'
 }
 
 export type MetaData = {

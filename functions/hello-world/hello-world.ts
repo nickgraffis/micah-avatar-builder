@@ -76,8 +76,8 @@ const handler: Handler = async (event) => {
       }
     },
   }
-
   const body = newAvatar({
+    ...(params?.shape) && { shape: params?.shape === 'square' || params?.shape === 'circle' ? params?.shape : 'circle' },
     ...(params?.size) && { size: params?.size },
     ...(params?.seed) && { seed: params?.seed },
     ...(params?.facialHairProbability) && { facialHairProbability: parseInt(params?.facialHairProbability) },
